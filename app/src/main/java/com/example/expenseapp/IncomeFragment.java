@@ -53,7 +53,7 @@ public class IncomeFragment extends Fragment {
 
         mIncomeDatabase=FirebaseDatabase.getInstance().getReference().child("IncomeData").child(uid);
 
-        recyclerView = myview.findViewById(R.id.recycler_income);
+        recyclerView = myview.findViewById(R.id.recycler_id_income);
 
         LinearLayoutManager layoutManager=new LinearLayoutManager(getActivity());
 
@@ -71,9 +71,11 @@ public class IncomeFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        FirebaseRecyclerOptions<Data> options = new FirebaseRecyclerOptions.Builder<Data>()
-                .setQuery(mIncomeDatabase, Data.class)
-                .build();
+        FirebaseRecyclerOptions<Data> options=
+                new FirebaseRecyclerOptions.Builder<Data>()
+                        .setQuery(mIncomeDatabase,Data.class)
+                        .setLifecycleOwner(this)
+                        .build();
 
         adapter = new FirebaseRecyclerAdapter<Data, MyViewHolder>(options) {
 
@@ -88,6 +90,7 @@ public class IncomeFragment extends Fragment {
                 holder.setDate(model.getDate());
             }
         };
+
         recyclerView.setAdapter(adapter);
     }
 
@@ -95,40 +98,36 @@ public class IncomeFragment extends Fragment {
 
     }
 
-     class MyViewHolder extends RecyclerView.ViewHolder{
+    class MyViewHolder extends RecyclerView.ViewHolder{
 
-        View mView;
+    View mView;
 
-        public MyViewHolder(View itemView) {
-            super(itemView);
-            mView=itemView;
-        }
+    public MyViewHolder(View itemView) {
+        super(itemView);
+        mView=itemView;
+    }
 
-        void setType(String type){
-            TextView mType=mView.findViewById(R.id.type_txt_income);
-            mType.setText(type);
-        }
+    void setDate(String date){
+        TextView mDate=mView.findViewById(R.id.date_txt_expense);
+        mDate.setText(date);
+    }
 
-        void setNote(String note){
+    void setType(String type){
+        TextView mType=mView.findViewById(R.id.type_txt_expense);
+        mType.setText(type);
+    }
 
-            TextView mNote=mView.findViewById(R.id.note_txt_income);
-            mNote.setText(note);
+    void setNote(String note){
+        TextView mNote=mView.findViewById(R.id.note_txt_expense);
+        mNote.setText(note);
+    }
 
-        }
-
-        void setDate(String date){
-            TextView mDate=mView.findViewById(R.id.date_txt_income);
-            mDate.setText(date);
-        }
-
-        void setAmmount(int ammount){
-
-            TextView mAmmount=mView.findViewById(R.id.ammount_txt_income);
-            String stammount=String.valueOf(ammount);
-            mAmmount.setText(stammount);
-
-        }
-
+    void setAmmount(int ammount){
+        TextView mAAmmount=mView.findViewById(R.id.ammount_txt_expense);
+        String strammount=String.valueOf(ammount);
+        mAAmmount.setText(strammount);
 
     }
+
+}
 
